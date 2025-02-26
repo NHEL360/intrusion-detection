@@ -4,11 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <style>
+        /* Style for back button and layout consistency */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #357AE8;
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome Admin!</h1>
-    <p>You are viewing the Admin Dashboard.</p>
-    
-    <a href="{{ url_for('logout') }}">Logout</a>
+
+    <!-- Back Button -->
+    <button class="back-btn" onclick="window.location.href='/'">Back</button>
+
+    <div style="text-align: center; padding-top: 50px;">
+        <h1>Welcome Admin!</h1>
+        <p>You are viewing the Admin Dashboard.</p>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
 </body>
 </html>
