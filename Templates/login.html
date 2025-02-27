@@ -7,96 +7,118 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
+            background-color: #f8f9fa;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            position: relative;
         }
 
         .login-container {
-            text-align: center;
-            padding: 50px;
-            background-color: white;
+            background: white;
+            padding: 40px;
             border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
         }
 
-        h1 {
-            color: #4285F4;
-            font-size: 28px;
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        p {
+            font-size: 14px;
+            color: #777;
             margin-bottom: 20px;
         }
 
         .input-field {
             width: 100%;
             padding: 12px;
-            margin: 10px 0;
-            border-radius: 5px;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
+            border-radius: 5px;
             font-size: 16px;
+            box-sizing: border-box;
         }
 
         .login-btn {
             background-color: #4285F4;
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: 12px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 5px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             width: 100%;
+            transition: background 0.2s;
         }
 
         .login-btn:hover {
             background-color: #357AE8;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
         }
 
-        .login-btn:focus {
-            outline: none;
+        .forgot-password {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #4285F4;
+            text-decoration: none;
         }
 
-        .login-btn:active {
-            transform: translateY(0);
+        .forgot-password:hover {
+            text-decoration: underline;
         }
 
-        .back-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #4285F4;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
+        .flash-messages {
+            list-style: none;
+            padding: 0;
+            color: red;
+            font-size: 14px;
         }
 
-        .back-btn:hover {
-            background-color: #357AE8;
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <button class="back-btn" onclick="window.location.href='{{ url_for('home') }}'">Back</button>
-
     <div class="login-container">
-        <h1>Login</h1>
+        <h2>Sign in</h2>
+        <p>Use your account to continue</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
 
         <form method="POST">
-            <input class="input-field" type="text" name="username" placeholder="Username" required>
-            <input class="input-field" type="password" name="password" placeholder="Password" required>
-            <button class="login-btn" type="submit">Sign in</button>
+            <input class="input-field" type="text" name="username" placeholder="Enter your username" required>
+            <input class="input-field" type="password" name="password" placeholder="Enter your password" required>
+            <button class="login-btn" type="submit">Next</button>
         </form>
+
+        <a href="#" class="forgot-password">Forgot password?</a>
+        <a href="{{ url_for('home') }}" class="back-link">Back to home</a>
     </div>
 
 </body>

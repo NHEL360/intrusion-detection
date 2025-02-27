@@ -5,39 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
     <style>
-        /* Style for back button and layout consistency */
-        .back-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #4285F4;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s ease;
-        }
-
-        .back-btn:hover {
-            background-color: #357AE8;
-            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
-        }
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        .logout-btn { background-color: #4285F4; color: white; padding: 15px 40px; border-radius: 5px; cursor: pointer; }
+        .logout-btn:hover { background-color: #357AE8; }
     </style>
 </head>
 <body>
 
-    <!-- Back Button -->
-    <button class="back-btn" onclick="window.location.href='/'">Back</button>
-
-    <div style="text-align: center; padding-top: 50px;">
-        <h1>Welcome User!</h1>
-        <p>You are viewing the User Dashboard.</p>
-        <a href="{{ url_for('logout') }}">Logout</a>
-    </div>
+    <h1>Welcome User!</h1>
+    <p>You are viewing the User Dashboard.</p>
+    <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
 
 </body>
 </html>

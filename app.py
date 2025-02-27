@@ -3,8 +3,9 @@ import time
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
+app.config['SESSION_PERMANENT'] = False  # Ensures session is cleared after closing browser
 
-# Simulating a simple "database" for users and roles
+# Simulated user database
 users_db = {
     "admin": {"password": "admin123", "role": "admin", "failed_attempts": 0, "last_failed_time": 0},
     "user1": {"password": "user123", "role": "user", "failed_attempts": 0, "last_failed_time": 0},
@@ -12,7 +13,7 @@ users_db = {
 }
 
 MAX_FAILED_ATTEMPTS = 3
-LOCKOUT_TIME = 60  # 1 minute
+LOCKOUT_TIME = 60  # 1 minute lockout
 
 @app.route("/")
 def home():
@@ -21,66 +22,59 @@ def home():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form['username']
-        password = request.form['password']
-        
+        username = request.form.get('username')
+        password = request.form.get('password')
+
         if username in users_db:
             user = users_db[username]
             current_time = time.time()
 
-            if user["failed_attempts"] >= MAX_FAILED_ATTEMPTS and current_time - user["last_failed_time"] < LOCKOUT_TIME:
-                flash("Account is locked due to too many failed attempts. Please try again later.")
+            # Lockout check
+            if user["failed_attempts"] >= MAX_FAILED_ATTEMPTS and (current_time - user["last_failed_time"] < LOCKOUT_TIME):
+                flash("Account locked. Try again later.", "error")
                 return redirect(url_for('login'))
 
             if user["password"] == password:
                 session['user'] = username
                 session['role'] = user['role']
-                user["failed_attempts"] = 0
-                flash("Login successful!")
+                user["failed_attempts"] = 0  # Reset failed attempts
+                flash("Login successful!", "success")
                 return redirect(url_for('dashboard'))
             else:
                 user["failed_attempts"] += 1
                 user["last_failed_time"] = current_time
-                flash("Invalid credentials. Please try again.")
-                return redirect(url_for('login'))
+                flash("Invalid credentials. Try again.", "error")
         else:
-            flash("User not found.")
-            return redirect(url_for('login'))
-    
-    return render_template('login.html')
+            flash("User not found.", "error")
 
+    return render_template('login.html')
 
 @app.route("/dashboard")
 def dashboard():
     if 'user' in session:
-        if session['role'] == 'admin':
-            return redirect(url_for('admin_dashboard'))
-        else:
-            return redirect(url_for('user_dashboard'))
+        return redirect(url_for('admin_dashboard' if session['role'] == 'admin' else 'user_dashboard'))
+    flash("Please log in first.", "warning")
     return redirect(url_for('login'))
-
 
 @app.route("/admin")
 def admin_dashboard():
     if 'user' in session and session['role'] == 'admin':
         return render_template('admin_dashboard.html')
+    flash("Unauthorized access.", "error")
     return redirect(url_for('login'))
-
 
 @app.route("/user")
 def user_dashboard():
     if 'user' in session and session['role'] == 'user':
         return render_template('user_dashboard.html')
+    flash("Unauthorized access.", "error")
     return redirect(url_for('login'))
-
 
 @app.route("/logout")
 def logout():
-    session.pop('user', None)
-    session.pop('role', None)
-    flash("You have been logged out.")
+    session.clear()
+    flash("Logged out successfully.", "info")
     return redirect(url_for('login'))
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5001)

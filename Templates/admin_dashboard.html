@@ -5,86 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            position: relative;
-        }
-
-        .dashboard-container {
-            text-align: center;
-            padding: 50px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            width: 300px;
-        }
-
-        h1 {
-            color: #4285F4;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        .logout-btn {
-            background-color: #4285F4;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-        }
-
-        .logout-btn:hover {
-            background-color: #357AE8;
-            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .logout-btn:focus {
-            outline: none;
-        }
-
-        .logout-btn:active {
-            transform: translateY(0);
-        }
-
-        .back-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #4285F4;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .back-btn:hover {
-            background-color: #357AE8;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        .logout-btn { background-color: #4285F4; color: white; padding: 15px 40px; border-radius: 5px; cursor: pointer; }
+        .logout-btn:hover { background-color: #357AE8; }
     </style>
 </head>
 <body>
 
-    <button class="back-btn" onclick="window.location.href='{{ url_for('home') }}'">Back</button>
-
-    <div class="dashboard-container">
-        <h1>Welcome Admin!</h1>
-        <a href="{{ url_for('logout') }}">
-            <button class="logout-btn">Logout</button>
-        </a>
-    </div>
+    <h1>Welcome Admin!</h1>
+    <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
 
 </body>
 </html>
